@@ -2,23 +2,19 @@
 //hacer un objeto tarea que tenga (id,titulo y estado) --> el estado siempre en false y cuando la se marque en true
 
 let listaTarea = document.querySelector('input[type="text"]');
-let vacio = document.getElementById("vacio");
 let contador = 0;
-let tarea = {
+let tareas = {
 
 }
 
 formulario.addEventListener('submit', (evento)=>{
     //evento = preventDefault();
-    /*if(contador == 0){
-        vacio.innerHTML = `No hay tareas`
-    }*/
     agregarTarea();
 })
 
 let agregarTarea = () => {
     contador ++;
-    let valor = tarea.value;
+    let valor = listaTarea.value;
 
     lista.innerHTML += `
     <div id=${contador}>
@@ -26,20 +22,31 @@ let agregarTarea = () => {
             <input type="checkbox">
             ${valor}
         </label>
+        <img src="./img/trash2.jpg" class="trash">
     </div>`
-    tarea.value = '';
+    listaTarea.value = '';
 }
 
-formulario.addEventListener('click', (evento)=>{
-    let check = document.querySelectorAll('input type=["checkbox"]:checked');
-    if(evento.srcElement.nodeName == 'INPUT'){
-    }
+lista.addEventListener('click', (evento)=>{
     if(evento.srcElement.nodeName == 'IMG'){
-        eliminarTarea(evento.srcElement.parentNode,id);
+        eliminarTarea(evento.srcElement.parentNode.id);
+    }
+    else if(evento.srcElement.nodeName == 'INPUT'){
+        marcarTarea();
     }
 })
 
-let eliminarTarea = () => {
+let eliminarTarea = (id) => {
     let tareaEliminada = document.getElementById(id);
-    formulario.removeChild(tareaEliminada);
+    lista.removeChild(tareaEliminada);
+}
+
+let marcarTarea = () => {
+    check.innerHTML = `
+    <p class="checkTarea">
+        <label>
+            <input type="checkbox">
+            ${valor} 
+        </label>
+    </p>`
 }
