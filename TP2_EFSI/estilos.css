@@ -1,3 +1,25 @@
+body {
+	background: #fff;
+}
+
+.container {
+	/*display: block;*/
+	text-align: center;
+	width: 400px;
+	margin: 100px auto 0;
+}
+
+.texto {
+	font-family:arial;
+	font-size: 30px;
+	text-align: center;
+	text-decoration: underline;
+}
+
+.alinear {
+	background-position: center;
+}
+
 li {
 	list-style: none;
 	margin-bottom: 5px;
