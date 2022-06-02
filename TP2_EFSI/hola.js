@@ -1,52 +1,182 @@
-//https://webdesign.tutsplus.com/es/tutorials/to-do-app-with-vanilla-javascript--cms-35258
-//hacer un objeto tarea que tenga (id,titulo y estado) --> el estado siempre en false y cuando la se marque en true
+/*
+const CLAVE_LOCALSTORAGE = "lista_tareas";
+document.addEventListener("DOMContentLoaded", () => {
+	let tareas = []; // El arreglo global que vamos a manejar
+	// Declaración de elementos del DOM
+	const $contenedorTareas = document.querySelector("#contenedorTareas"),
+		$btnGuardarTarea = document.querySelector("#btnAgregarTarea"),
+		$inputNuevaTarea = document.querySelector("#inputNuevaTarea");
 
-let listaTarea = document.querySelector('input[type="text"]');
-let contador = 0;
-let tareas = {
+	// Escuchar clic del botón para agregar nueva tarea
+	$btnGuardarTarea.onclick = () => {
+		const tarea = $inputNuevaTarea.value;
+		if (!tarea) {
+			return;
+		}
+		tareas.push({
+			tarea: tarea,
+			terminada: false,
+		});
+		$inputNuevaTarea.value = "";
+		guardarTareasEnAlmacenamiento();
+		refrescarListaDeTareas();
+	};
 
-}
+	const obtenerTareasDeAlmacenamiento = () => {
+		const posibleLista = JSON.parse(localStorage.getItem(CLAVE_LOCALSTORAGE));
+		if (posibleLista) {
+			return posibleLista;
+		} else {
+			return [];
+		}
+	};
 
-formulario.addEventListener('submit', (evento)=>{
-    //evento = preventDefault();
-    agregarTarea();
-})
+	const guardarTareasEnAlmacenamiento = () => {
+		localStorage.setItem(CLAVE_LOCALSTORAGE, JSON.stringify(tareas));
+	};
 
-let agregarTarea = () => {
-    contador ++;
-    let valor = listaTarea.value;
+	// Definir función que refresca la lista de tareas a partir del arreglo global
+	const refrescarListaDeTareas = () => {
+		$contenedorTareas.innerHTML = "";
+		for (const [indice, tarea] of tareas.entries()) {
+			// Crear el enlace para eliminar la tarea
+			const $enlaceParaEliminar = document.createElement("a");
+			$enlaceParaEliminar.classList.add("enlace-eliminar");
+			$enlaceParaEliminar.innerHTML = "&times;";
+			$enlaceParaEliminar.href = "";
+			$enlaceParaEliminar.onclick = (evento) => {
+				evento.preventDefault();
+				if (!confirm("¿Eliminar tarea?")) {
+					return;
+				}
+				tareas.splice(indice, 1);
+				// Guardar los cambios
+				guardarTareasEnAlmacenamiento(tareas);
+				refrescarListaDeTareas();
+			};
+			// El input para marcar la tarea como terminada
+			const $checkbox = document.createElement("input");
+			$checkbox.type = "checkbox";
+			$checkbox.onchange = function () { // No es una función flecha porque quiero acceder al elemento a través de this
+				if (this.checked) {
+					tareas[indice].terminada = true;
+				} else {
+					tareas[indice].terminada = false;
+				}
+				guardarTareasEnAlmacenamiento(tareas);
+				refrescarListaDeTareas();
+			}
 
-    lista.innerHTML += `
-    <div id=${contador}>
-        <label>
-            <input type="checkbox">
-            ${valor}
-        </label>
-        <img src="./img/trash2.jpg" class="trash">
-    </div>`
-    listaTarea.value = '';
-}
+			// El span que llevará el contenido de la tarea
+			const $span = document.createElement("span");
+			$span.textContent = tarea.tarea;
+			// Y finalmente el elemento de la lista
+			const $li = document.createElement("li");
+			// Verificamos si la tarea está marcada para marcar los elementos
+			if (tarea.terminada) {
+				$checkbox.checked = true;
+				$span.classList.add("tachado");
+			}
+			$li.appendChild($checkbox);
+			$li.appendChild($span);
+			$li.appendChild($enlaceParaEliminar);
+			$contenedorTareas.appendChild($li);
+		}
+	};
+	// Llamar a la función la primera vez
+	tareas = obtenerTareasDeAlmacenamiento();
+	refrescarListaDeTareas();
+});
 
-lista.addEventListener('click', (evento)=>{
-    if(evento.srcElement.nodeName == 'IMG'){
-        eliminarTarea(evento.srcElement.parentNode.id);
-    }
-    else if(evento.srcElement.nodeName == 'INPUT'){
-        marcarTarea();
-    }
-})
+*/
 
-let eliminarTarea = (id) => {
-    let tareaEliminada = document.getElementById(id);
-    lista.removeChild(tareaEliminada);
-}
 
-let marcarTarea = () => {
-    check.innerHTML = `
-    <p class="checkTarea">
-        <label>
-            <input type="checkbox">
-            ${valor} 
-        </label>
-    </p>`
-}
+
+const CLAVE_LOCALSTORAGE = "lista_tareas";
+document.addEventListener("DOMContentLoaded", () => {
+	let tareas = []; // El arreglo global que vamos a manejar
+	// Declaración de elementos del DOM
+    const $contenedorTareas = document.querySelector("#contenedorTareas"),
+		$btnGuardarTarea = document.querySelector("#btnAgregarTarea"),
+		$inputNuevaTarea = document.querySelector("#inputNuevaTarea");
+
+	// Escuchar clic del botón para agregar nueva tarea
+	$btnGuardarTarea.onclick = () => {
+		const tarea = $inputNuevaTarea.value;
+		if (!tarea) {
+			return;
+		}
+		tareas.push({
+			tarea: tarea,
+			terminada: false,
+		});
+		$inputNuevaTarea.value = "";
+		guardarTareasEnAlmacenamiento();
+		refrescarListaDeTareas();
+	};
+
+	const obtenerTareasDeAlmacenamiento = () => {
+		const posibleLista = JSON.parse(localStorage.getItem(CLAVE_LOCALSTORAGE));
+		if (posibleLista) {
+			return posibleLista;
+		} else {
+			return [];
+		}
+	};
+
+	const guardarTareasEnAlmacenamiento = () => {
+		localStorage.setItem(CLAVE_LOCALSTORAGE, JSON.stringify(tareas));
+	};
+
+	// Definir función que refresca la lista de tareas a partir del arreglo global
+	const refrescarListaDeTareas = () => {
+		$contenedorTareas.innerHTML = "";
+		for (const [indice, tarea] of tareas.entries()) {
+			// Crear el enlace para eliminar la tarea
+			const enlaceParaEliminar = document.createElement("a");
+			enlaceParaEliminar.classList.add("eliminar");
+			enlaceParaEliminar.innerHTML = "&times;";
+			enlaceParaEliminar.href = "";
+			enlaceParaEliminar.onclick = (evento) => {
+				evento.preventDefault();
+				if (!confirm("¿Eliminar tarea?")) {
+					return;
+				}
+				tareas.splice(indice, 1);
+				// Guardar los cambios
+				guardarTareasEnAlmacenamiento(tareas);
+				refrescarListaDeTareas();
+			};
+			// El input para marcar la tarea como terminada
+			const $checkbox = document.createElement("input");
+			$checkbox.type = "checkbox";
+			$checkbox.onchange = function () { // No es una función flecha porque quiero acceder al elemento a través de this
+				if (this.checked) {
+					tareas[indice].terminada = true;
+				} else {
+					tareas[indice].terminada = false;
+				}
+				guardarTareasEnAlmacenamiento(tareas);
+				refrescarListaDeTareas();
+			}
+
+			// El span que llevará el contenido de la tarea
+			const $span = document.createElement("span");
+			$span.textContent = tarea.tarea;
+			// Y finalmente el elemento de la lista
+			const $li = document.createElement("li");
+			// Verificamos si la tarea está marcada para marcar los elementos
+			if (tarea.terminada) {
+				$checkbox.checked = true;
+				$span.classList.add("tachar");
+			}
+			$li.appendChild($checkbox);
+			$li.appendChild($span);
+			$li.appendChild(enlaceParaEliminar);
+			$contenedorTareas.appendChild($li);
+		}
+	};
+	// Llamar a la función la primera vez
+	tareas = obtenerTareasDeAlmacenamiento();
+	refrescarListaDeTareas();
+});
